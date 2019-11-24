@@ -2,48 +2,46 @@ from tkinter import *
 import tkinter.messagebox
 
 
-def mySqrt(event):
-    x = entry.get()
+class SquareRoot:
+    def __init__(self, root):
+        root.title('Square Root Calculator')
+        root.iconbitmap('i.ico')
 
-    try:
-        label2 = Label(window, text=round((float(x) ** 0.5), 2), font=('verdana', 9, 'bold'))
-        canvas.create_window(200, 230, window=label2)
-        label1 = Label(window, text='The Square Root of ' + x + ' is:',font=('verdana', 9))
-        canvas.create_window(200, 210, window=label1)
-    except ValueError:
-        tkinter.messagebox.showinfo('Error', 'Please enter a number!')
+        self.canvas = Canvas(root, width=400, height=300)
+        self.canvas.pack()
+
+        self.label = Label(root, text='Calculate the Square Root')
+        self.label.config(font=('verdana', 14))
+        self.canvas.create_window(200, 25, window=self.label)
+
+        self.invite_label = Label(root, text="Enter your number")
+        self.invite_label.config(font=('verdana', 10))
+        self.canvas.create_window(200, 100, window=self.invite_label)
+
+        self.entry = Entry(root)
+        self.entry.bind('<Return>', self.my_sqrt)
+        self.canvas.create_window(200, 130, window=self.entry)
+
+        self.go_button = Button(root, text="Go!", command=self.my_sqrt, bg='brown', fg='white', font=('verdana', 9, 'bold'))
+        self.canvas.create_window(200, 170, window=self.go_button)
+
+    def my_sqrt(self, event):
+        x = self.entry.get()
+
+        try:
+            self.label2 = Label(root, text=round((float(x) ** 0.5), 2), font=('verdana', 9, 'bold'))
+            self.canvas.create_window(200, 230, window=self.label2)
+
+            self.label1 = Label(root, text='The Square Root of ' + x + ' is:', font=('verdana', 9))
+            self.canvas.create_window(200, 210, window=self.label1)
+        except ValueError:
+            tkinter.messagebox.showinfo('Error', 'Please enter a number!')
 
 
-"""Creating a window"""
-window = Tk()
+root = Tk()
+obj = SquareRoot(root)
+root.mainloop()
 
-"""Adding a window title"""
-window.title('Square Root')
 
-"""Setting window icon"""
-window.iconbitmap('i.ico')
 
-"""Creating a canvas"""
-canvas = Canvas(window, width=400, height=300)
-canvas.pack()
 
-"""Adding a label"""
-label = Label(window, text='Calculate the Square Root')
-label.config(font=('verdana', 14))
-canvas.create_window(200, 25, window=label)
-
-"""Adding invitation to enter the number"""
-inviteLabel = Label(window, text="Enter your number")
-inviteLabel.config(font=('verdana', 10))
-canvas.create_window(200, 100, window=inviteLabel)
-
-"""Adding an entry box"""
-entry = Entry(window)
-entry.bind('<Return>', mySqrt)
-canvas.create_window(200, 130, window=entry)
-
-"""Adding a button"""
-goButton = Button(window, text="Go!", command=mySqrt, bg='brown', fg='white', font=('verdana', 9, 'bold'))
-canvas.create_window(200, 170, window=goButton)
-
-window.mainloop()
